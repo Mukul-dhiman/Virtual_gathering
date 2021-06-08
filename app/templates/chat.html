@@ -1,0 +1,22 @@
+<html>
+
+<head>
+    <title>Flask-SocketIO-Chat: {{ name }}</title>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/chat.js' )}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/chat.css') }}">
+</head>
+
+<body onload="startGame()">
+    <button onclick="moveup()">UP</button>
+    <button onclick="movedown()">DOWN</button>
+    <button onclick="moveleft()">LEFT</button>
+    <button onclick="moveright()">RIGHT</button>
+    <h1>Flask-SocketIO-Chat: {{ name }}</h1>
+    <textarea id="chat" cols="80" rows="20"></textarea><br><br>
+    <input id="text" size="80" placeholder="Enter your message here"><br><br>
+    <a href="#" onclick="leave_room();">Leave this room</a>
+</body>
+
+</html>
