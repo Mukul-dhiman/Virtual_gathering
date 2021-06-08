@@ -8,14 +8,14 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/chat.css') }}">
 </head>
 
-<body onload="startGame()">
+<body onload="starta()">
+    <meta id="data_id" name="{{ session['name'] }}">
     <button onclick="moveup()">UP</button>
     <button onclick="movedown()">DOWN</button>
     <button onclick="moveleft()">LEFT</button>
     <button onclick="moveright()">RIGHT</button>
-    <h1>Flask-SocketIO-Chat: {{ name }}</h1>
-    <textarea id="chat" cols="80" rows="20"></textarea><br><br>
-    <input id="text" size="80" placeholder="Enter your message here"><br><br>
+    <textarea id="chat" cols="150" rows="20"></textarea>
+    <input id="text" size="60" placeholder="Enter your message here">
     <a href="#" onclick="leave_room();">Leave this room</a>
 </body>
 
