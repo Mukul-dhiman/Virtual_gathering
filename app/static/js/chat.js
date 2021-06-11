@@ -1,3 +1,5 @@
+
+
 var socket;
 var current_mem = {};
 var mycolor;
@@ -65,6 +67,14 @@ function leave_room() {
         window.location.href = "/";
     });
 }
+window.onbeforeunload = function () {
+    console.log("stop");
+    alert(result.message,'are you sure?',function(){
+
+        leave_room();
+    });
+
+}
 
 function make_object(color, name){
     current_mem[name] = new component2(30, 30, color, 10, 120);
@@ -81,6 +91,7 @@ function startGame(name, color) {
 function starta(){
     var name = document.getElementsByTagName('meta')[0].getAttribute('name');
     mycolor = generateRandomColor();
+    $('#your_color').css({'background-color': mycolor});
     startGame(name, mycolor);
     myGameArea.start();
 }
@@ -89,7 +100,7 @@ var myGameArea = {
     canvas: document.createElement("canvas"),
     start: function () {
         this.canvas.width = 1500;
-        this.canvas.height = 650;
+        this.canvas.height = 450;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 150);
@@ -121,7 +132,7 @@ function component2(width, height, color, x, y) {
         else if (this.y < 1 & this.speedY < 0) {
             this.speedY = 0;
         }
-        else if (this.y > 620 & this.speedY > 0) {
+        else if (this.y > 420 & this.speedY > 0) {
             this.speedY = 0;
         }
         else {
@@ -153,7 +164,7 @@ function component(width, height, color, x, y) {
         else if (this.y < 1 & this.speedY < 0) {
             this.speedY = 0;
         }
-        else if (this.y > 620 & this.speedY > 0) {
+        else if (this.y > 420 & this.speedY > 0) {
             this.speedY = 0;
         }
         else {

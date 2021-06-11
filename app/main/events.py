@@ -24,7 +24,7 @@ def joined(message):
         hash_y.set_val(name, 30)
         # print("------------",hash_mem)
 
-    print(color, name,"//////////",hash_mem)
+    # print(color, name,"//////////",hash_mem)
     for n in hash_mem:
         # print(n,"**************")
         emit('status_join', {'msg': n + ' has entered the room.', 'jname': n, 'color': hash_color.get_val(n)}, room = name)
@@ -79,5 +79,6 @@ def left(message):
     hash_color.delete_val(name)
     hash_x.delete_val(name)
     hash_y.delete_val(name)
-    emit('status', {'msg': session.get('name') + ' has left the room.'}, name=name)
+    for n in hash_mem:
+        emit('status', {'msg': session.get('name') + ' has left the room.'}, room=n)
 

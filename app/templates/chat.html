@@ -6,7 +6,11 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/chat.css') }}">
     <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/chat.js' )}}"></script>
-    
+    <script type="text/javascript">
+ window.onbeforeunload = function () {
+  return 'Are you really want to perform the action?';
+ }
+</script>
 </head>
 
 <body onload="starta()">
@@ -16,6 +20,7 @@
     <button onclick="moveleft()">LEFT</button>
     <button onclick="moveright()">RIGHT</button>
     <textarea id="chat" cols="150" rows="20"></textarea>
+    <p>your color is:<span id="your_color">|||||||</span></p>
     <input id="text" size="60" placeholder="Enter your message here">
     <a href="#" onclick="leave_room();">Leave this room</a>
 </body>
