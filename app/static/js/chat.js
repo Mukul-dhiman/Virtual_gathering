@@ -21,6 +21,9 @@ $(document).ready(function () {
     });
     socket.on('new_change', function (data) {
         var namec = data.name;
+        if(typeof current_mem[namec] == 'undefined'){
+            return;
+        }
         var newx = data.newx;
         var newy = data.newy;
         current_mem[namec].x = newx;
@@ -38,6 +41,7 @@ $(document).ready(function () {
         console.log(data.color,data.jname);
         if( data.jname!=name){
             make_object(data.color, data.jname);
+            console.log("making object");
         }
     });
     socket.on('message', function (data) {
@@ -63,7 +67,8 @@ function leave_room() {
 }
 
 function make_object(color, name){
-    current_mem[name] = component2(30, 30, color, 10, 120);
+    current_mem[name] = new component2(30, 30, color, 10, 120);
+    console.log(current_mem[name]);
 }
 
 
@@ -87,7 +92,7 @@ var myGameArea = {
         this.canvas.height = 650;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 20);
+        this.interval = setInterval(updateGameArea, 150);
     },
     clear: function () {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -101,11 +106,6 @@ function component2(width, height, color, x, y) {
     this.speedY = 0;
     this.x = x;
     this.y = y;
-    this.update = function () {
-        ctx = myGameArea.context;
-        ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-    }
     this.update = function () {
         ctx = myGameArea.context;
         ctx.fillStyle = color;
@@ -172,6 +172,7 @@ function updateGameArea() {
     
     var name = document.getElementsByTagName('meta')[0].getAttribute('name');
     socket.emit('change', {cname: name, newx: current_mem[name].x, newy: current_mem[name].y});
+
 }
 
 function moveup() {
