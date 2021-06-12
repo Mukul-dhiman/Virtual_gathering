@@ -77,7 +77,7 @@ window.onbeforeunload = function () {
 }
 
 function make_object(color, name){
-    current_mem[name] = new component2(30, 30, color, 10, 120);
+    current_mem[name] = new component(30, 30, color, 10, 120);
     console.log(current_mem[name]);
 }
 
@@ -94,6 +94,9 @@ function starta(){
     $('#your_color').css({'background-color': mycolor});
     startGame(name, mycolor);
     myGameArea.start();
+    setInterval(function(){
+        myGameArea.clear();
+    }, 100);
 }
 
 var myGameArea = {
@@ -103,44 +106,45 @@ var myGameArea = {
         this.canvas.height = 450;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 150);
+        this.interval = setInterval(updateGameArea, 5);
+
     },
     clear: function () {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
 
-function component2(width, height, color, x, y) {
-    this.width = width;
-    this.height = height;
-    this.speedX = 0;
-    this.speedY = 0;
-    this.x = x;
-    this.y = y;
-    this.update = function () {
-        ctx = myGameArea.context;
-        ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-    }
-    this.newPos = function () {
-        if (this.x < 1 & this.speedX < 0) {
-            this.speedX = 0;
-        }
-        else if (this.x > 1470 & this.speedX > 0) {
-            this.speedX = 0;
-        }
-        else if (this.y < 1 & this.speedY < 0) {
-            this.speedY = 0;
-        }
-        else if (this.y > 420 & this.speedY > 0) {
-            this.speedY = 0;
-        }
-        else {
-            this.x += this.speedX;
-            this.y += this.speedY;
-        }
-    }
-}
+// function component2(width, height, color, x, y) {
+//     this.width = width;
+//     this.height = height;
+//     this.speedX = 0;
+//     this.speedY = 0;
+//     this.x = x;
+//     this.y = y;
+//     this.update = function () {
+//         ctx = myGameArea.context;
+//         ctx.fillStyle = color;
+//         ctx.fillRect(this.x, this.y, this.width, this.height);
+//     }
+//     this.newPos = function () {
+//         if (this.x < 1 & this.speedX < 0) {
+//             this.speedX = 0;
+//         }
+//         else if (this.x > 1470 & this.speedX > 0) {
+//             this.speedX = 0;
+//         }
+//         else if (this.y < 1 & this.speedY < 0) {
+//             this.speedY = 0;
+//         }
+//         else if (this.y > 420 & this.speedY > 0) {
+//             this.speedY = 0;
+//         }
+//         else {
+//             this.x += this.speedX;
+//             this.y += this.speedY;
+//         }
+//     }
+// }
 
 function component(width, height, color, x, y) {
     this.width = width;
@@ -175,33 +179,32 @@ function component(width, height, color, x, y) {
 }
 
 function updateGameArea() {
-    myGameArea.clear();
     var name = document.getElementsByTagName('meta')[0].getAttribute('name');
-    current_mem[name].newPos();
-    current_mem[name].update();
     socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
     
-    var name = document.getElementsByTagName('meta')[0].getAttribute('name');
+    current_mem[name].newPos();
     socket.emit('change', {cname: name, newx: current_mem[name].x, newy: current_mem[name].y});
-
+    
+    // myGameArea.clear();
+    // current_mem[name].update();
 }
 
 function moveup() {
     var name = document.getElementsByTagName('meta')[0].getAttribute('name');
-    current_mem[name].speedY -= 1;
+    current_mem[name].speedY -= 0.1;
 }
 
 function movedown() {
     var name = document.getElementsByTagName('meta')[0].getAttribute('name');
-    current_mem[name].speedY += 1;
+    current_mem[name].speedY += 0.1;
 }
 
 function moveleft() {
     var name = document.getElementsByTagName('meta')[0].getAttribute('name');
-    current_mem[name].speedX -= 1;
+    current_mem[name].speedX -= 0.1;
 }
 
 function moveright() {
     var name = document.getElementsByTagName('meta')[0].getAttribute('name');
-    current_mem[name].speedX += 1;
+    current_mem[name].speedX += 0.1;
 }

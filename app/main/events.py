@@ -48,8 +48,8 @@ def change(message):
 
 
     for n in hash_mem:
-        if( name != n ):
-            emit('new_change', {'name': namec, 'newx': newx, 'newy': newy}, room = n)
+        # if( name != n ):
+        emit('new_change', {'name': namec, 'newx': newx, 'newy': newy}, room = n)
 
 
 
